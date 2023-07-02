@@ -132,13 +132,13 @@ router.post('/signup', recaptcha.middleware.verify, captchaRegister, async(req, 
         req.flash('error_messages',"Username harus minimal 4 karakter");
         res.redirect('/signup');
     } else if(username.length > 20) {
-        req.flash('error_messages',"Limit Username tidak boleh lebih 20 karakter");
+        req.flash('error_messages',"Batas Username tidak boleh lebih dari 20 karakter");
         res.redirect('/signup');
     } else if (containsEmoji(username)) {
-        req.flash('error_messages',"Username Tidak boleh guna emoji");
+        req.flash('error_messages',"Username Tidak boleh menggunakan emoji");
         res.redirect('/signup');  
     }else if(!checkemail){
-        req.flash('error_messages',"Sorry kami terima Account Gmail Sahaja");
+        req.flash('error_messages',"Maaf, kami hanya menerima Akun Gmail");
         res.redirect('/signup');  
     }else{
 
@@ -161,7 +161,7 @@ router.post('/signup', recaptcha.middleware.verify, captchaRegister, async(req, 
 
                         }).save((err, data) => {
                             if (err) throw err;
-                            req.flash('success_messages',"Account Succes Create Sila Login");
+                            req.flash('success_messages',"Berhasil Membuat Akun, Silahkan Login");
                             res.redirect('/login');
                         });
                     })
@@ -177,17 +177,17 @@ router.get('/send-verification-email', checkAuth, async (req, res) => {
         res.redirect('/docs');
     } else {
         if (check) {
-        req.flash('error_messages', 'Please Dont Spam Wait After 30 minit.')
+        req.flash('error_messages', 'Please Dont Spam, Wait After 30 minutes.')
         res.redirect('/docs');
         }else{
          var token = crypto.randomBytes(32).toString('hex');
         await VerifyUser({ token: token, email: req.user.email }).save();
         var mail =await mailer.sendVerifyEmail(req.user.email, token)
         if(mail == 'error'){
-            req.flash('error_messages','Error Please Try Again Tomorrow');
+            req.flash('error_messages','Error!!! Please Try Again Tomorrow');
             res.redirect('/docs');
         }else{
-        req.flash('success_messages', 'Done Sent Email Link Expired After 30 mnit.')
+        req.flash('success_messages', 'Done. Sent Email Link Expired After 30 minutes.')
         res.redirect('/docs');
         }
 
@@ -244,7 +244,7 @@ router.post('/forgot-password', recaptcha.middleware.verify, captchaForgotPasswo
 
 if (userData) {
 if (Cooldown) {
-    req.flash('error_messages','Please Dont Spam Wait After 30 minit after new submit.');
+    req.flash('error_messages','Please Dont Spam, Wait After 30 minutes after new submit.');
     res.redirect('/forgot-password')
             
  }else{
@@ -255,7 +255,7 @@ if (Cooldown) {
                 res.redirect('/forgot-password');
             }else{
              await resetToken({ token: token, email: email }).save();
-            req.flash('success_messages','Check your email for more info, wait 30 minit after new submit.');
+            req.flash('success_messages','Check your email for more info, wait 30 minutes after new submit.');
             res.redirect('/forgot-password');    
             }
            
