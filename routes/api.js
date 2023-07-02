@@ -51,13 +51,13 @@ const router = express.Router()
 
 async function cekKey(req, res, next) {
 	var apikey = req.query.apikey
-	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter apikey"})  
+	if (!apikey ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukkan parameter apikey"})  
 
     let db = await User.findOne({apikey: apikey});
     if(db === null) {
-		return res.json({ status : false, creator : `${creator}`, message : "[!] Apikey Tidak Wujud"})  
+		return res.json({ status : false, creator : `${creator}`, message : "[!] Apikey Tidak Ada"})  
 		} else if(!db.isVerified) {
-				return res.json({ status : false, creator : `${creator}`, message : "[!] Sila Verify Email dulu sebelum guna apikey"})  
+				return res.json({ status : false, creator : `${creator}`, message : "[!] Harap verifikasi email terlebih dahulu sebelum menggunakan apikey"})  
 			} else if(db.limitApikey === 0) {
 				return res.json({ status : false, creator : `${creator}`, message : "[!] Apikey Sudah Habis"})  
 			}else{
@@ -794,7 +794,7 @@ router.get('/api/soundoftext', cekKey, async (req, res, next) => {
 	var text1 = req.query.text
 	var lan = req.query.lang
 	if (!text1 ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter text"})   
-	if (!lan ) return res.json({ status : false, creator : `${creator}`, message : "[!] sila letak format lang dengan betul cek web site https://soundoftext.com/docs untuk lihat code lang"})   
+	if (!lan ) return res.json({ status : false, creator : `${creator}`, message : "[!] harap cantumkan format lang dengan benar periksa situs web https://soundoftext.com/docs untuk melihat kode lang"})   
 
 textto.sounds.create({ text: text1, voice: lan })
 .then(soundUrl => {
