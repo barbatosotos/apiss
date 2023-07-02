@@ -69,7 +69,7 @@ mongoose
     if (limit === null) {
       let obj = { RequestToday: 0 };
       await dataweb.create(obj);
-      console.log("DATA WEBSITE Sussces Create");
+      console.log("DATA WEBSITE Success Create");
     }
   });
 
@@ -83,7 +83,7 @@ cron.schedule(
   },
   {
     scheduled: true,
-    timezone: "Asia/Kuala_Lumpur",
+    timezone: "Asia/Jakarta",
   }
 );
 
@@ -95,7 +95,7 @@ cron.schedule(
   },
   {
     scheduled: true,
-    timezone: "Asia/Kuala_Lumpur",
+    timezone: "Asia/Jakarta",
   }
 );
 
